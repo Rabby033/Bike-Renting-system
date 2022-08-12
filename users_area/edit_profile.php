@@ -56,14 +56,24 @@ if(isset($_GET['edit_profile']))
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- css link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
     <!-- font link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        .wrap{
+       background: url('../img/login_bg.jpg') no-repeat;
+       background-size: cover;
+       height: 100vh;
+       overflow-x: hidden;
+       overflow-y: auto;
+      }
+    </style>
 </head>
 <body>
-    <h3 class="text-center text-success mb-4">Edit Account</h3>
+    <div class="wrap">
+    <h3 class="text-center text-success mb-4">Edit Profile</h3>
     <form action="" method="post" enctype="multipart/form-data" class="text-center">
         <div class="form-outline mb-4">
             <input type="email" class="form-control w-50 m-auto" name="user_useremail"  placeholder="enter new email">
@@ -79,5 +89,6 @@ if(isset($_GET['edit_profile']))
         </div>
         <input type="submit" class="bg-info border-0" value="update" name="update_profile">
     </form>
+    </div>
 </body>
 </html>

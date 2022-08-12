@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -21,7 +20,6 @@
         width: 60px;
         height: 60px;
     }
-
     .center {
         margin-left: auto;
         margin-right: auto;
@@ -52,20 +50,18 @@
             </div>
         </nav>
     </div>
-
     <div class="bg-light">
         <h3 class="text-center p-2">Admin pannel</h3>
     </div>
-
     <div class="row">
         <div class="col-md-12 bg-secondary p-2">
             <div class="button text-center">
                 <button><a href="insert_product.php" class="nav-link text-light bg-info"> Insert Bike</a></button>
                 <button><a href="index.php?view_product" class="nav-link text-light bg-info">view bikes</a></button>
-                <button><a href="index.php?insert_category" class="nav-link text-light bg-info">insert
-                        categories</a></button>
-                <button><a href="index.php?view_category" class="nav-link text-light bg-info">view
-                        categories</a></button>
+                <!-- <button><a href="index.php?insert_category" class="nav-link text-light bg-info">insert
+                        categories</a></button> -->
+                <!-- <button><a href="index.php?view_category" class="nav-link text-light bg-info">view
+                        categories</a></button> -->
                 <button><a href="index.php?all_order" class="nav-link text-light bg-info">pending orders</a></button>
                 <button><a href="index.php?user_list" class="nav-link text-light bg-info">user list</a></button>
                 <button><a href="" class="nav-link text-light bg-info">Log out</a></button>

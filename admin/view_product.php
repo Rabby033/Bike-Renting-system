@@ -8,7 +8,7 @@ include('../includes/connect.php');
                 <th>Product id </th>
                 <th>Product Title     </th>
                 <th>Product image</th>
-                <th>Delete</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody class="bg-secondary text-light">
@@ -25,7 +25,10 @@ include('../includes/connect.php');
                 <td>$product_id</td>
                 <td>$product_title</td>
                 <td><img src='./product_images/$product_img' class='short_image'></td>
-                <td><a href='index.php?delete_product=$product_id' class='text-light'>Delete</a></td>
+                <td>
+                <a href='./edit_product.php?edit_product=$product_id' class='text-light'>Edit</a>
+                <a href='index.php?delete_product=$product_id' class='text-light'>Delete</a>
+                </td>
                 </tr>";
             }
             ?>
