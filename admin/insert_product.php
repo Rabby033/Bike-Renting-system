@@ -3,8 +3,9 @@
  if(isset($_POST['insert_product']))
  {
     $title=$_POST['product_title'];
+    $brand=$_POST['product_brand'];
+    $loca=$_POST['product_location'];
     $description=$_POST['product_description'];
-    $category=$_POST['product_cat'];
     $price=$_POST['product_price'];
 
 
@@ -16,24 +17,19 @@
     $temp2=$_FILES['product_image2']['tmp_name'];
     $temp3=$_FILES['product_image3']['tmp_name'];
 
-    if($title=='' or $description=='' or $category=='' or $price=='' or $img1=='' or $img2=='' or $img3=='')
+     move_uploaded_file($temp1,"./product_images/$img1");
+     move_uploaded_file($temp2,"./product_images/$img2");
+     move_uploaded_file($temp3,"./product_images/$img3");
+     $sql="INSERT INTO products(product_title,brand,product_location,product_description,product_img1,product_img2,product_img3,product_price,date,status) VALUES('$title'
+            ,'$brand','$loca','$description','$img1','$img2','$img3','$price',NOW(),'true')";
+    $result=mysqli_query($con,$sql);
+    if($result)
     {
-        echo "<script>alert('please fill up all field!')</script>";
-        exit();
+      echo "<script>alert('product insert successfully')</script>";
     }
     else
     {
-        move_uploaded_file($temp1,"./product_images/$img1");
-        move_uploaded_file($temp2,"./product_images/$img2");
-        move_uploaded_file($temp3,"./product_images/$img3");
-
-        $sql="INSERT INTO products(product_title,product_description,category_id,product_img1,product_img2,product_img3,product_price,date,status) VALUES('$title'
-            ,'$description','$category','$img1','$img2','$img3','$price',NOW(),'true')";
-        $result=mysqli_query($con,$sql);
-        if($result)
-        {
-            echo "<script>alert('product insert successfully')</script>";
-        }
+      echo "<script>alert('successfully failed')</script>";
     }
  }
 ?>
@@ -66,25 +62,35 @@
                     placeholder="Enter product title" required="required">
             </div>
             <div class="form-outline md-4 w-50 m-auto p-2">
+                <lebel for="product-title" class="form-lebel">Product Brand</lebel>
+                <input type="text" name="product_brand" id="product_brand" class="form-control"
+                    placeholder="Enter product brand" required="required">
+            </div>
+            <div class="form-outline md-4 w-50 m-auto p-2">
+                <lebel for="product-location" class="form-lebel">Product location</lebel>
+                <input type="text" name="product_location" class="form-control" placeholder="Enter product location"
+                required="required">
+            </div>
+            <div class="form-outline md-4 w-50 m-auto p-2">
                 <lebel for="product-description" class="form-lebel">Product Description</lebel>
                 <input type="text" name="product_description" id="product_description" class="form-control"
                     placeholder="Enter product Description" required="required">
             </div>
-            <div class="form-outline md-4 w-50 m-auto p-2">
+            <!-- <div class="form-outline md-4 w-50 m-auto p-2">
                 <lebel for="Select category" class="form-lebel">Select category</lebel>
                 <select name="product_cat" class="form-control">
-                    <?php
-                  $sql="SELECT * FROM categories";
-                  $result=mysqli_query($con,$sql);
-                  while($row=mysqli_fetch_assoc($result))
-                  {
-                    $title=$row['category_title'];
-                    $id=$row['category_id'];
-                    echo  "<option value='$id'>$title</option>";
-                  }
-                ?>
+                     <?php
+                //   $sql="SELECT * FROM categories";
+                //   $result=mysqli_query($con,$sql);
+                //   while($row=mysqli_fetch_assoc($result))
+                //   {
+                //     $title=$row['category_title'];
+                //     $id=$row['category_id'];
+                //     echo  "<option value='$id'>$title</option>";
+                //   }
+                ?> 
                 </select>
-            </div>
+            </div> -->
             <div class="form-outline md-4 w-50 m-auto p-2">
                 <lebel for="product-image1" class="form-lebel">Image1</lebel>
                 <input type="file" name="product_image1" id="product_image1" class="form-control" required="required">

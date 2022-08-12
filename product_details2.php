@@ -9,7 +9,7 @@ include('./includes/connect.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style1.css">
     <!-- font link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
@@ -24,7 +24,7 @@ include('./includes/connect.php');
         height: 100%;
         width: 100%;
         height: 350px;
-        /* margin-left: 30px; */
+        margin-left: 30px;
         width: 350px;
     }
 
@@ -52,14 +52,15 @@ include('./includes/connect.php');
         margin-left: 25px;
         background: green;
     }
+
     .book_now {
         margin-bottom: 10px;
         background-color: white;
         margin-left: 2px;
-        font-size:16px;
-        width:250px;
-        height:40px;
-        margin-top:20px;
+        font-size: 16px;
+        width: 250px;
+        height: 40px;
+        margin-top: 20px;
         border: 1px solid black;
         border-radius: 5px;
         padding: 10px;
@@ -71,6 +72,7 @@ include('./includes/connect.php');
         transition: .5s;
         cursor: pointer;
     }
+
     .btn {
         margin-bottom: 10px;
         background-color: white;
@@ -101,7 +103,7 @@ include('./includes/connect.php');
         background: red;
         width: 150px;
         color: white;
-        height:auto;
+        height: auto;
         font-size: 20px;
         border: 1px solid black;
         border-radius: 5px;
@@ -123,33 +125,93 @@ include('./includes/connect.php');
         margin-left: 650px;
         font-family: Sans-serif;
     }
-    .frm{
-        margin-left:120px;
+
+    .frm {
+        margin-left: 120px;
+    }
+
+    .logo1 {
+        width: 100px;
+        height: auto;
+        padding: 10px;
+    }
+
+    .wrapper .center {
+        position: absolute;
+        top: 40%;
+        left: 55%;
+        font-family: sans-serif;
+    }
+
+    .center h1 {
+        color: white;
+        font-size: 70px;
+    }
+
+    .center .buttons {
+        margin: 35px 10px;
+        height: 50px;
+        width: 150px;
+        font-size: 20px;
+        color: white;
+        background: red;
+        border: 0;
+        cursor: pointer;
     }
     </style>
 </head>
 
 <body>
     <div class="navbar">
-        <nav class="navbar">
-            <img class="logo" src="logo.png">
+        <div class="logo">
+            <img class="logo1" src="logo.png">
+        </div>
+        <div class="nav_right">
             <ul>
-                <li><a href="./index.php">Home</a></li>
-                <li><a href="./product.php">Bike list </a></li>
-                <li><a href="./cart.php">wishlist</a></li>
+                <li class="j"><a href="./index.php">Home</a></li>
+                <li class="j"><a href="./product.php">Bike list </a></li>
+                <li class="j"><a href="./cart.php">wishlist</a></li>
                 <?php
-                session_start();
-                if(isset($_SESSION["username"]))
-                {
-                  echo "<li><a href='./users_area/profile.php'>Profile</a></li>";
-                }
-                else
-                {
-                 echo "<li><a href='./users_area/user_login.php'>Login</a></li>";
-                }
-            ?>
+                    session_start();
+                    if(isset($_SESSION["username"]))
+                    {
+                      $username=$_SESSION['username'];
+                      $user_imge="SELECT * FROM user_table WHERE username='$username'";
+                      $res=mysqli_query($con,$user_imge);
+                      $row=mysqli_fetch_array($res);
+                      $img=$row['user_image'];
+                      
+                      echo "<li class='nr_li dd_main'>
+                      <img src='./users_area/user_images/$img' alt='profile_img'>
+                      <div class='dd_menu'>
+                          <div class='dd_right'>
+                              <ul>
+                                  <li class='hey'><a href='./users_area/profile.php'>My Profile</a></li>
+                                  <li class='hey'><a href='./users_area/edit_profile.php'>Edit Profile</a></li>
+                                  <li class='hey'><a href='#'>Help</a></li>
+                                  <li class='hey'><a href='./users_area/logout.php'>Logout</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </li>";
+                    }
+                    else
+                    {
+                      echo "<li class='nr_li dd_main'>
+                      <img src='./guest.png' alt='profile_img'>
+                      <div class='dd_menu'>
+                          <div class='dd_right'>
+                              <ul>
+                              <li><a href='./users_area/user_login.php'>Login</a></li>
+                              <li class='hey'><a href='./users_area/user_registration.php'>Register</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </li>";
+                    }
+                    ?>
             </ul>
-        </nav>
+        </div>
     </div>
     <!-- collect view details data from database -->
     <?php
@@ -186,15 +248,22 @@ include('./includes/connect.php');
             <h3><i class='fa-solid fa-envelope'></i>Book now</h3>
             <input type='text' placeholder='From Date(dd/mm/yyyy)'' required=' required' name='start_date'
                 autocomplete='off' class='block'>
-            <input type='text' placeholder='To Date(dd/mm/yyyy)' required='required' name='end_date'
-                autocomplete='off' class='block'>
-            <input type='text' placeholder='Message' required='required' name='msg' autocomplete='off'
+            <input type='text' placeholder='To Date(dd/mm/yyyy)' required='required' name='end_date' autocomplete='off'
                 class='block'>
+            <input type='text' placeholder='Message' required='required' name='msg' autocomplete='off' class='block'>
             <input type='submit' value='Book now' name='submit' autocomplete='off' class='book_now'>
         </div>
     </form>
     </div>
+    <script>
+    var dd_main = document.querySelector(".dd_main");
+
+    dd_main.addEventListener("click", function() {
+        this.classList.toggle("active");
+    })
+    </script>
 </body>
+
 </html>
 <?php
     if(isset($_POST['submit']))

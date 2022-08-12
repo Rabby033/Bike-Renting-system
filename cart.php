@@ -14,206 +14,175 @@ include('./function/common_function.php');
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- css link -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style1.css">
     <!-- font link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
         integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
-    .card-img-top {
-        width: 100%;
-        height: 100%;
-        height: 200px;
+    .logo1 {
+        width: 100px;
+        height: auto;
+        padding: 10px;
     }
 
-    .sh {
-        width: 80px;
-        height: 80px;
+    .table {
+        width: 900px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .headi{
+        text-align:center;
+        font-family: sans-serif;
+        color: rgba(21, 145, 237, 0.8)
+    }
+    .wrapper .center {
+        position: absolute;
+        top: 40%;
+        left: 55%;
+        font-family: sans-serif;
+    }
+
+    .center h1 {
+        color: white;
+        font-size: 70px;
+    }
+
+    .center .buttons {
+        margin: 35px 10px;
+        height: 50px;
+        width: 150px;
+        font-size: 20px;
+        color: white;
+        background: red;
+        border: 0;
+        cursor: pointer;
+    }
+
+    .list_image {
+        width: 100%;
+        height: 100%;
+        width: 90px;
+        height: 90px;
+    }
+
+    .navbar .dd_menu {
+        position: absolute;
+        right: -25px;
+        width: 180px;
     }
     </style>
 </head>
 
 <body>
-        <nav class="navbar">
-          <img class="logo" src="logo.png">
-          <ul>
-            <li><a href="./index.php">Home</a></li>
-            <li><a href="./product.php">Bike list </a></li>
-            <li><a href="./cart.php">Renting</a></li>
-            <?php
-            session_start();
-            if($_SESSION['username'])
-            {
-               echo "<li><a href='./users_area/profile.php'>Profile</a></li>";
-            }
-            else
-            {
-                echo "<li><a href='./users_area/user_login.php'>Login</a></li>";
-            }
-            ?>
-          </ul>
-        </nav>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">welcome</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">log out</a>
-                </li>
-            </ul>
-        </nav>
 
-        <div class="bg-light">
-            <h3 class="text-center">Available product</h3>
+    <div class="navbar">
+        <div class="logo">
+            <img class="logo1" src="logo.png">
         </div>
-
-        <!-- showing cart -->
-        <div class="container">
-
-            <div class="row">
-                <form action="" method="post">
-                    <table class="table table-bordered text-center">
-                        <!-- php code to fetch data -->
-                        <?php
-                        global $con;
-                        $get_ip=get_ip_address();
-                        $total_price=0;
-                        $sql="SELECT * FROM cart_details WHERE ip_address='$get_ip' ";
-                        $result=mysqli_query($con,$sql);
-
-                        $result_count=mysqli_num_rows($result);
-                        if($result_count>0)
-                        {
-                            echo "<thead>
-                            <tr>
-                                <th>Product title</th>
-                                <th>product image</th>
-                                <th>duration</th>
-                                <th>total price</th>
-                                <th>remove</th>
-                            </tr>
-                        </thead>
-                        <tbody>";
-                        while($row=mysqli_fetch_assoc($result))
-                        {
-                           $product_id=$row['p_id'];
-                           $sql_2="SELECT * FROM products WHERE product_id=$product_id";
-                           $re=mysqli_query($con,$sql_2);
-                           while($row_product_price=mysqli_fetch_assoc($re))
-                           {
-                                 $price=array($row_product_price['product_price']);
-                                 $price_table=$row_product_price['product_price'];
-                                 $product_title=$row_product_price['product_title'];
-                                 $product_image=$row_product_price['product_img2'];
-                                 $value=array_sum($price);
-                                 $total_price+=$value;
-                        ?>
-                        <tr>
-                            <td><?php echo $product_title  ?></td>
-                            <td><img src='./admin/product_images/<?php echo $product_image ?>' class='sh'></td>
-                            <td><input type='text' class='form-input w-50' name='qty'></td>
-
-                            <?php
-                                global $con;
-                                $get_ip=get_ip_address();
-                                if(isset($_POST['update_cart']))
-                                {
-                                    $quantity=$_POST['qty'];
-                                    $update_cart="UPDATE cart_details set duration=$quantity WHERE ip_address='$get_ip' and p_id=$product_id";
-                                    $r=mysqli_query($con,$update_cart);
-                                    $total_price=$total_price*$quantity;
-                                }                        
-                                ?>
-
-
-                            <td><?php echo $price_table  ?></td>
-                            <td><input type='checkbox' name="remove_item[]" value="<?php echo $product_id ?>"></td>
-                        </tr>
-                        </tbody>
-                        <?php
-                           }
-                         }
-                       
-                        }
-                        else
-                        {
-                            echo "<h2 class='text-center text-danger'>Your cart is empty</h2>";
-                        }
-                      
-                      ?>
-
-
-                    </table>
-
-                    <input type='submit' value='Remove item' class='bg-info border-0 p-1 text-center' name='remove_cart'>
-                    <input type='submit' value='confirm_payment' class='bg-info border-0 p-1' name='confirm_payment'>
-                    <?php
-                    if(isset($_POST['confirm_payment']))
+        <div class="nav_right">
+            <ul>
+                <li class="j"><a href="./index.php">Home</a></li>
+                <li class="j"><a href="./product.php">Bike list </a></li>
+                <li class="j"><a href="./cart.php">wishlist</a></li>
+                <?php
+                    session_start();
+                    if(isset($_SESSION["username"]))
                     {
-                        echo "<script>window.open('./users_area/payment.php','_self')</script>";
+                      $username=$_SESSION['username'];
+                      $user_imge="SELECT * FROM user_table WHERE username='$username'";
+                      $res=mysqli_query($con,$user_imge);
+                      $row=mysqli_fetch_array($res);
+                      $img=$row['user_image'];
+                      
+                      echo "<li class='nr_li dd_main'>
+                      <img src='./users_area/user_images/$img' alt='profile_img'>
+                      <div class='dd_menu'>
+                          <div class='dd_right'>
+                              <ul>
+                                  <li class='hey'><a href='./users_area/profile.php'>My Profile</a></li>
+                                  <li class='hey'><a href='./users_area/edit_profile.php'>Edit Profile</a></li>
+                                  <li class='hey'><a href='#'>Help</a></li>
+                                  <li class='hey'><a href='./users_area/logout.php'>Logout</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </li>";
+                    }
+                    else
+                    {
+                      echo "<li class='nr_li dd_main'>
+                      <img src='./guest.png' alt='profile_img'>
+                      <div class='dd_menu'>
+                          <div class='dd_right'>
+                              <ul>
+                                 <li><a href='./users_area/user_login.php'>Login</a></li>
+                                 <li class='hey'><a href='./users_area/user_registration.php'>Register</a></li>
+                              </ul>
+                          </div>
+                      </div>
+                  </li>";
                     }
                     ?>
-
-                    <div class="d-flex mb-3">
-
-                    <!-- <?php
-                    // global $con;
-                    // $get_ip=get_ip_address();
-                    // $total_price=0;
-                    // $sql="SELECT * FROM cart_details WHERE ip_address='$get_ip' ";
-                    // $result=mysqli_query($con,$sql);
-
-                    // $result_count=mysqli_num_rows($result);
-                    // if($result_count>0)
-                    // {
-                        // echo "<h4 class='px-3'>Subtotal:<strong class='text-info'><?php echo $total_price
-                        // ?></strong></h4>
-                        <a href='index.php'><button class='bg-info p-1 border-0 mx-2'>Continue shopping</button></a>
-                         <button class='bg-secondary p-1 border-0 mx-2'><a href='./users_area/checkout.php' -->
-                                <!-- class='text-light text-decoration-none'>checkout</button>"; -->
-                        <!-- } -->
-
-                        <!-- ?> --> 
-                    </div>
-                </form>
-
-                <!-- function to remove item -->
-                <?php
-               function remove_cart_item()
-               {
-                 global $con;
-                 if(isset($_POST['remove_cart']) )
-                 {
-                    foreach($_POST['remove_item'] as $remove_id)
-                    {
-                        echo $remove_id;
-                       $delete="DELETE  FROM cart_details WHERE p_id=$remove_id";
-                       $result_delete=mysqli_query($con,$delete);
-                       if($result_delete)
-                       {
-                         echo  "<script>window.open('cart.php','_self')</script>";
-                       }
-                    }
-                 }
-               }
-               echo $remove_item=remove_cart_item();
-               ?>
-            </div>
+            </ul>
         </div>
+    </div>
 
 
+    <div class="mt-2">
+        <h3 class='headi'>My wishlist</h3>
+        <table class="table">
+            <thead class="bg-info">
+                <tr>
+                    <th>Product name</th>
+                    <th>Product Image</th>
+                    <th>Product price/day</th>
+                </tr>
+            </thead>
+            <tbody class="bg-secondary text-light">
+                <?php
+                if(!isset($_SESSION['username']))
+                {
+                    echo "<script>window.open('./users_area/user_login.php','_self')</script>";
+                }
+                $username=$_SESSION['username'];
+                $sql="SELECT * FROM wishlist WHERE username='$username'";
+                $result=mysqli_query($con,$sql);
+                while($row=mysqli_fetch_assoc($result))
+                {
+                    $pid=$row['product_id'];
+                    $sql2="SELECT * FROM  products WHERE product_id=$pid";
+                    $res=mysqli_query($con,$sql2);
+                    $rh=mysqli_fetch_array($res);
+                    
+                     $cnt=mysqli_num_rows($res);
+                      $product_title=$rh['product_title'];
+                      $product_price=$rh['product_price'];
+                      $product_image=$rh['product_img1'];
 
 
+                      echo "<tr>
+                       <td>$product_title</td>
+                       <td><img src='./admin/product_images/$product_image' class='list_image'></td>
+                      <td>$product_price</td> </tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+    </div>
 
-        <!-- last  -->
-        <?php
-        include('./includes/footer.php');
-        ?>
+    <!-- last  -->
     <!-- bootstrap js link  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+    <script>
+    var dd_main = document.querySelector(".dd_main");
+
+    dd_main.addEventListener("click", function() {
+        this.classList.toggle("active");
+    })
     </script>
 </body>
 
